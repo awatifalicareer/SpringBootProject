@@ -3,23 +3,40 @@
 name: CI
 
 # Controls when the workflow will run
-on:
+on: # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # Use the reusable Gradle workflow for tests
-  gradle-test:
-    uses: ./.github/workflows/gradle-base.yml
-    with:
-      task: test
+jobs: # This workflow contains a single job called "build"
+  test: # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-  # Optional: separate build job using the same base workflow
-  gradle-build:
-    uses: ./.github/workflows/gradle-base.yml
-    with:
-      task: build
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Run tests
+        run: ./gradlew test
+  build:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Run Build
+        run: ./gradlew build
