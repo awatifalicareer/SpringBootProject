@@ -8,14 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
+
     @GetMapping("/")
-    public String home()
-    {
-        String str
-                = "<html><body><font color=\"green\">"
-                + "<h1>WELCOME To MyFirstSpringBootProject-get endpoint</h1>"
-                + "</font></body></html>";
-        return str;
+    public String home() {
+        // OLD: "<h1>WELCOME To MyFirstSpringBootProject-get endpoint</h1>"
+        return "<h1>HELLO! This is a test update for CI/CD pipeline</h1>";
     }
 
     // Another syntax to implement a
